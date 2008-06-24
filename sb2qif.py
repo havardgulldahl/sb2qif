@@ -35,7 +35,7 @@ from StringIO import StringIO
 
 __doc__ = u"""
 Skript som oversetter fra kontoutskrifter i CSV-format til QIF.
-Håvard Dahle <havard@lurtgjort.no> (C) 2006-2007
+Håvard Dahle <havard@lurtgjort.no> (C) 2006-2008
 
 Bruk:
 sb2qif.py [-format] <CSV-fil fra skandiabanken>,... > skandiabanken.qif
@@ -66,9 +66,8 @@ L[konto%(konto)s]
 """
     skrivKategorier = True # Skriv liste over transaksjonskategorier på toppen av qif-fila
     
-    datoFormat = "%(aar)s-%(mnd)s-%(dag)s" # hvordan skal dater presenteres
+    datoFormat = "%(aar)s-%(mnd)s-%(dag)s" # hvordan skal datoer presenteres
     
-    #utgiftFormat = "(%s)" # hvordan skal negative tall angis
     utgiftFormat = "-%s" # hvordan skal negative tall angis
     
     transaksjonFormat = """D%(dato)s
@@ -310,7 +309,7 @@ class cashbox(qifskriver):
     skrivBalanse = True # Skriv "Opening balance" på toppen av qif-fila
     balanseFormat = "!Type:Bank\n\n"
     skrivKategorier = False # Skriv liste over transaksjonskategorier på toppen av qif-fila
-    datoFormat = "%(dag)s/%(mnd)s/%(aar)s" # hvordan skal dater presenteres
+    datoFormat = "%(dag)s/%(mnd)s/%(aar)s" # hvordan skal datoer presenteres
     utgiftFormat = "-%s" # hvordan skal negative tall angis
     transaksjonFormat = """D%(dato)s
 T%(belop)s
@@ -329,6 +328,9 @@ kmymoney = qifskriver ## Kmymoneys qif-forståelse er default utputt
 if __name__ == '__main__':
     if not sys.argv[1:]:
         print __doc__
+        sys.exit(1)
+    if sys.argv[1] == '-v':
+        print __version__
         sys.exit()
     if sys.argv[1][1:] in ('cashbox','kmymoney'):
         qiffer = locals()[sys.argv[1][1:]]
