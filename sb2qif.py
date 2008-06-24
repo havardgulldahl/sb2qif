@@ -35,7 +35,7 @@ from StringIO import StringIO
 
 __doc__ = u"""
 Skript som oversetter fra kontoutskrifter i CSV-format til QIF.
-Håvard Dahle <havard@lurtgjort.no> (C) 2006-2008
+Håvard Gulldahl <havard@lurtgjort.no> (C) 2006-2008
 
 Bruk:
 sb2qif.py [-format] <CSV-fil fra skandiabanken>,... > skandiabanken.qif
