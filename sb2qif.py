@@ -2,12 +2,10 @@
 # -*- encoding:utf8 -*- #
 # kate: indent-width 4;
 ###########################################################################
-#    Copyright (C) 2006-2007 - Håvard Dahle
-#    <havard@dahle.no>
+#    Copyright (C) 2006-2008 - Håvard Gulldahl
+#    <havard@lurgjort.no>
 #
 #    Lisens: GPL2
-#
-# $Id: 0.7 $
 #
 # Dette skriptet konverterer fra kontoutskrifter lastet ned fra Skandiabanken
 # til det mer generelle, de facto utvekslingsformatet QIF. QIF kan importeres
@@ -43,7 +41,7 @@ sb2qif.py [-format] <CSV-fil fra skandiabanken>,... > skandiabanken.qif
 Hvor -format er 'kmymoney' (default) eller 'cashbox' (flere formater mottas med takk).
 """
 
-__version__ = "0.7"
+__version__ = "0.8"
 
 class SkilleTegnFeil(Exception): pass
 class QIFFeil(Exception): pass
