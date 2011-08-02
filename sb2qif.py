@@ -143,11 +143,13 @@ CR
         #eller
         #"BOKF�RINGSDATO"        "RENTEDATO"     "ARKIVREFERANSE"        "TYPE"  "TEKST" "UT FRA KONTO"  "INN P� KONTO"
         for z in ('\t', ';', ','):
-            p = len(linje.split(z))
+            parts = linje.split(z)
+            p = len(parts)
             if p not in (7, 8): continue
             elif p == 7: return z
             elif p == 8:
-                self.gammelformat = True
+                if len(parts[7].strip()) != 0:
+                    self.gammelformat = True
                 return z
         raise SkilleTegnFeil("Kan ikke finne skilletegn")
 
@@ -180,7 +182,11 @@ CR
             #
             #"BOKF�RINGSDATO"        "RENTEDATO"     "ARKIVREFERANSE"        "TYPE"  "TEKST" "UT FRA KONTO"  "INN P� KONTO"
             # "2007-03-31"    "2007-04-01"    "90010000"      "Kreditrente"   "KREDITRENTER"          7,01
+            # 
 
+            if linje.endswith("%s\r\n" % skilletegn):
+                linje = linje[0:len(linje)-len("%s\r\n" % skilletegn)]
+            
             try:
                 if self.gammelformat:
                     bokdato, rentedato, bruksdato, ref, _type, tekst, ut, inn = \
@@ -189,7 +195,8 @@ CR
                     bruksdato = "" # finnes ikke i nytt format
                     bokdato, rentedato, ref, _type, tekst, ut, inn = \
                      linje.decode(inntegnsett).encode(uttegnsett).split(skilletegn)
-            except ValueError:
+            except ValueError, (e):
+                    print e
                     raise TolkeFeil(linje) ## TODO NBNBN XXXX
 
             d = {}
@@ -275,7 +282,6 @@ CR
 
     def _strip(self, s):
         s = s.strip()
-        if s[0] in ('"', "'"): s = s[1:]
         if s[-1] in ('"', "'"): s = s[:-1]
         if not s: return ""
         if s[0] == "*":
